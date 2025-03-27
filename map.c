@@ -9,14 +9,23 @@ void	count_lines(char *filename, t_so_long *func)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		ft_error("fd error");
-	count = 0;
-	while ((line = get_next_line(fd)))
+	count = 1;
+	line = get_next_line(fd);
+	func->row_length = ft_strlen(line) - 1;
+	while (line)
 	{
+		line = get_next_line(fd);
+		if (line)
+		{
+			if(line[0] == '\n')
+				count--;
+		}
 		count++;
 		free(line);
 	}
 	close(fd);
 	func->total_rows = count;
+	printf("%d %d\n", func->row_length, func->total_rows);
 }
 
 char **read_map(char *filename, t_so_long *func)
@@ -44,8 +53,10 @@ char **read_map(char *filename, t_so_long *func)
 	while (i < func->total_rows)
 	{
 		line = get_next_line(fd);
+		// printf("line %s\n", line);
+		if (line)
+			line[(func->row_length)] = '\0';
 		func->map[i] = line;
-		func->path_map[i] = line;
 		i++;
 	}
 	func->map[i] = NULL;
@@ -56,8 +67,6 @@ char **read_map(char *filename, t_so_long *func)
 void	ft_zero(t_so_long *func)
 {
 	//ERRORS
-	func->empty_line_err = 0;
-	func->rectangle_err = 0;
 	func->exit_err = 0;
 	func->start_err = 0;
 	func->coll_err = 0;
@@ -67,26 +76,36 @@ void	ft_zero(t_so_long *func)
 	func->total_rows = 0;
 	func->map = NULL;
 }
-void	check_walls(t_so_long *func)
+//void	check_walls(t_so_long *func)
+//{
+//	int	i;
+
+//	i = 0;
+//	while (i < func->)
+//}
+
+void	check_emptyline_and_rectangle(char **argv)
 {
-	int	i;
+	int		fd;
+	int		tmp;
+	char	*line;
 
-	i = 0;
-	while (i < func)
-}
-
-void	check_rectangle(t_so_long *func)
-{
-	int	i;
-	int	tmp;
-
-	i = 1;
-	while(i < func->total_rows)
+	fd = open(argv[1], O_RDWR);
+	if (fd == -1)
+		ft_error("File error");
+	line = get_next_line(fd);
+	tmp = ft_strlen(line);
+	while (line)
 	{
-		if (ft_strlen(func->map[i]) != ft_strlen(func->map[i - 1]))
-			func->rectangle_err = 1;
-		i++;
+		printf("rectangle %s",line);
+		if(line[0] == '\n')
+			ft_error("Empty line error");
+		if((int)ft_strlen(line) != tmp)
+			ft_error("Not rectangle");
+		free(line);
+		line = get_next_line(fd);
 	}
+	free(line);
 }
 
 int main(int argc, char **argv)
@@ -100,8 +119,9 @@ int main(int argc, char **argv)
 		write(2, "Usage: ./so_long map.ber\n", 31);
 		return (1);
 	}
+	check_emptyline_and_rectangle(argv);
 	func.map = read_map(argv[1], &func);
-	check_walls(&func);
+	//check_walls(&func);
 	if (!func.map)
 		return (1);
 	i = 0;

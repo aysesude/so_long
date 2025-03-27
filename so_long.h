@@ -10,8 +10,6 @@
 typedef struct s_so_long
 {
 	//ERRORS
-	int	empty_line_err;
-	int	rectangle_err;
 	int	exit_err;
 	int	start_err;
 	int	coll_err;
@@ -19,6 +17,7 @@ typedef struct s_so_long
 
 	//OTHERS
 	int		total_rows;
+	int		row_length;
 	char	**map;
 	char	**path_map;
 } t_so_long;

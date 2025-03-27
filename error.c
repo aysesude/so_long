@@ -2,10 +2,10 @@
 
 void	ft_print_errors(t_so_long *func)
 {
-	if(func->empty_line_err == 1)
-		ft_error("Empty Line Error");
-	if(func->rectangle_err == 1)
-		ft_error("Map is not rectanle");
+	//if(func->empty_line_err == 1)
+	//	ft_error("Empty Line Error");
+	//if(func->rectangle_err == 1)
+	//	ft_error("Map is not rectanle");
 	if(func->exit_err == 1)
 		ft_error("There is no exit/ Too much exit point");
 	if(func->start_err == 1)
@@ -18,6 +18,6 @@ void	ft_print_errors(t_so_long *func)
 
 void	ft_error(char *msg)
 {
-	perror(msg);
+	printf("%s", msg);
 	exit(1);
 }
