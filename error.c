@@ -14,10 +14,12 @@ void	ft_print_errors(t_so_long *func)
 		ft_error("There is no collectible");
 	if(func->path_err == 1)
 		ft_error("There is no valid path");
+	if(func->wall_err == 1)
+		ft_error("Walls are missing on the sides");
 }
 
 void	ft_error(char *msg)
-{	
-	 printf("%s", msg);
+{
+	printf("%s", msg);
 	exit(1);
 }

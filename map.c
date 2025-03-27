@@ -26,10 +26,10 @@ void	count_lines(char *filename, t_so_long *func)
 	}
 	close(fd);
 	func->total_rows = count;
-	printf("%d %d\n", func->row_length, func->total_rows);
+	printf("row_length: %d \ntotal_rows: %d\n", func->row_length, func->total_rows);
 }
 
-char **read_map(char *filename, t_so_long *func)
+void	read_map(char *filename, t_so_long *func)
 {
 	int fd;
 	char *line;
@@ -38,31 +38,33 @@ char **read_map(char *filename, t_so_long *func)
 
 	count_lines(filename, func);
 	if (func->total_rows <= 0)
-		return (NULL);
+		exit(0);
 	func->map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
 	func->path_map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
 	if (!func->map)
-		return (NULL);
+		exit(0);
+	if (!func->path_map)
+		exit(0);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		free(func->map);
-		return (NULL);
+		exit(0);
 	}
 	i = 0;
-	// printf("func %d", func->total_rows);
 	while (i < func->total_rows)
 	{
 		line = get_next_line(fd);
-		// printf("line %s\n", line);
 		if (line)
 			line[(func->row_length)] = '\0';
 		func->map[i] = line;
+		func->path_map[i] = line;
 		i++;
 	}
 	func->map[i] = NULL;
+	func->path_map[i] = NULL;
 	close(fd);
-	return (func->map);
+	// return (func->map);
 }
 
 void	ft_zero(t_so_long *func)
@@ -84,7 +86,7 @@ void	ft_zero(t_so_long *func)
 	func->p_count = 0;
 	func->player_i = 0;
 	func->player_j = 0;
-	
+
 }
 void	check_map_char(t_so_long *func)
 {
@@ -108,7 +110,7 @@ void	check_map_char(t_so_long *func)
 		i++;
 	}
 }
-void error_char_count(t_so_long *func)
+void	error_char_count(t_so_long *func)
 {
 	if (func->c_count == 0)
 	{
@@ -136,7 +138,7 @@ void error_char_count(t_so_long *func)
 		ft_error("There is more than one  exit in map\n");
 	}
 }
-void check_char_count(t_so_long *func)
+void	check_char_count(t_so_long *func)
 {
 	int	i;
 	int	j;
@@ -145,7 +147,7 @@ void check_char_count(t_so_long *func)
 	i = 0;
 	j = 0;
 	map = func->map;
-	
+
 	while (i < func->total_rows)
 	{
 		j = 0;
@@ -163,7 +165,8 @@ void check_char_count(t_so_long *func)
 	}
 		error_char_count(func);
 }
-void find_player_position(t_so_long *func)
+
+void	find_player_position(t_so_long *func)
 {
 	int	i;
 	int	j;
@@ -195,7 +198,7 @@ void find_player_position(t_so_long *func)
 // 	map = func->path_map;
 
 // 	if (map[i][j] != 'C')
-		
+
 // }
 
 void	check_emptyline_and_rectangle(char **argv)
@@ -222,33 +225,65 @@ void	check_emptyline_and_rectangle(char **argv)
 	free(line);
 }
 
-int main(int argc, char **argv)
+void	check_walls(t_so_long *func)
 {
-	t_so_long	func;
-	int			i;
+	int	i;
 
-	ft_zero(&func);
-	if (argc != 2)
-	{
-		write(2, "Usage: ./so_long map.ber\n", 31);
-		return (1);
-	}
-	check_emptyline_and_rectangle(argv);
-	func.map = read_map(argv[1], &func);
-	check_map_char(&func);
-	check_char_count(&func);
-	find_player_position(&func);
-	// check_valid_path(&func, func.player_i, func.player_j);
-	if (!func.map)
-		return (1);
 	i = 0;
-	while (func.map[i])
+	while(i < func->row_length)
 	{
-		// write(1, func.map[i], strlen(func.map[i]));
-		free(func.map[i]);
+		if(func->map[0][i] != '1' || func->map[func->total_rows - 1][i] != '1')
+		{
+			ft_error("Wall error");
+			func->wall_err = 1;
+		}
 		i++;
 	}
-	ft_print_errors(&func);
-	free(func.map);
-	return (0);
+	i = 0;
+	while(i < func->total_rows)
+	{
+		if(func->map[i][func->row_length - 1] != '1' || func->map[i][0] != '1')
+		{
+			ft_error("Wall error");
+			func->wall_err = 1;
+		}
+		i++;
+	}
+}
+
+void	check_valid_path(t_so_long *func, int i, int j)
+{
+	if(i < func->total_rows && j < func->row_length)
+	{
+		printf("Bakılan yer: %d %d \n", i, j);
+		if(func->path_map[i][j] != '1' && func->path_map[i][j] != '.')
+		{
+			func->path_map[i][j] = '.';
+			check_valid_path(func, (i + 1), j);
+			check_valid_path(func, i, j + 1);
+			check_valid_path(func, i - 1, j);
+			check_valid_path(func, i, j - 1);
+		}
+	}
+}
+
+void	check_path(t_so_long *func)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	check_valid_path(func, func->player_i, func->player_j);
+	while(i < func->total_rows)
+	{
+		j = 0;
+		while(j < func->row_length)
+		{
+			if(func->path_map[i][j] == 'E' || func->path_map[i][j] == 'C')
+				ft_error("There is no valid path");
+			j++;
+		}
+		i++;
+	}
 }

@@ -14,9 +14,10 @@ typedef struct s_so_long
 	int	start_err;
 	int	coll_err;
 	int	path_err;
-	int c_err;
-	int p_err;
-	int e_err;
+	int	wall_err;
+	int	c_err;
+	int	p_err;
+	int	e_err;
 
 	//OTHERS
 	int		total_rows;
@@ -33,5 +34,16 @@ typedef struct s_so_long
 void	ft_error(char *msg);
 void	ft_print_errors(t_so_long *func);
 
+void	count_lines(char *filename, t_so_long *func);
+void	read_map(char *filename, t_so_long *func);
+void	ft_zero(t_so_long *func);
+void	check_map_char(t_so_long *func);
+void	error_char_count(t_so_long *func);
+void	check_char_count(t_so_long *func);
+void	find_player_position(t_so_long *func);
+void	check_emptyline_and_rectangle(char **argv);
+void	check_walls(t_so_long *func);
+void	check_valid_path(t_so_long *func, int x, int y);
+void	check_path(t_so_long *func);
 
 #endif

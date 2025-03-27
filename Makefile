@@ -3,6 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 SRCS = ./get_next_line/get_next_line_utils.c \
 		./get_next_line/get_next_line.c \
+		so_long.c \
 		map.c \
 		error.c \
 
