@@ -20,7 +20,8 @@ void	count_lines(char *filename, t_so_long *func)
 			if(line[0] == '\n')
 				count--;
 		}
-		count++;
+		if(line)
+			count++;
 		free(line);
 	}
 	close(fd);
@@ -49,7 +50,7 @@ char **read_map(char *filename, t_so_long *func)
 		return (NULL);
 	}
 	i = 0;
-	printf("func %d", func->total_rows);
+	// printf("func %d", func->total_rows);
 	while (i < func->total_rows)
 	{
 		line = get_next_line(fd);
@@ -71,18 +72,131 @@ void	ft_zero(t_so_long *func)
 	func->start_err = 0;
 	func->coll_err = 0;
 	func->path_err = 0;
+	func->c_err = 0;
+	func->e_err = 0;
+	func->p_err = 0;
 
 	//OTHERS
 	func->total_rows = 0;
 	func->map = NULL;
+	func->c_count = 0;
+	func->e_count = 0;
+	func->p_count = 0;
+	func->player_i = 0;
+	func->player_j = 0;
+	
 }
-//void	check_walls(t_so_long *func)
-//{
-//	int	i;
+void	check_map_char(t_so_long *func)
+{
+	int	i;
+	int	j;
+	char **map;
 
-//	i = 0;
-//	while (i < func->)
-//}
+	i = 0;
+	j = 0;
+	map = func->map;
+	while (i < func->total_rows)
+	{
+		j = 0;
+		while(func->map[i][j])
+		{
+			if (map[i][j] != 'C' && map[i][j] != '0' && map[i][j] != '1' && map[i][j] != 'E'
+				&& map[i][j] != 'P')
+					ft_error("There is character rather than C 0 1 E P");
+			j++;
+		}
+		i++;
+	}
+}
+void error_char_count(t_so_long *func)
+{
+	if (func->c_count == 0)
+	{
+		func->c_err = 1;
+		ft_error("There is no collectable in map\n");
+	}
+	if (func->p_count == 0)
+	{
+		func->p_err = 1;
+		ft_error("There is no player in map\n");
+	}
+	if (func->p_count > 1)
+	{
+		func->p_err = 2;
+		ft_error("There is more than one  player in map\n");
+	}
+	if (func->e_count == 0)
+	{
+		func->e_err = 1;
+		ft_error("There is no exit in map\n");
+	}
+	if (func->e_count > 1)
+	{
+		func->e_err = 2;
+		ft_error("There is more than one  exit in map\n");
+	}
+}
+void check_char_count(t_so_long *func)
+{
+	int	i;
+	int	j;
+	char **map;
+
+	i = 0;
+	j = 0;
+	map = func->map;
+	
+	while (i < func->total_rows)
+	{
+		j = 0;
+		while(map[i][j])
+		{
+			if (map[i][j] == 'C')
+				func->c_count++;
+			if (map[i][j] == 'E')
+				func->e_count++;
+			if (map[i][j] == 'P')
+				func->p_count++;
+			j++;
+		}
+		i++;
+	}
+		error_char_count(func);
+}
+void find_player_position(t_so_long *func)
+{
+	int	i;
+	int	j;
+	char **map;
+
+	i = 0;
+	j = 0;
+	map = func->map;
+	while (i < func->total_rows)
+	{
+		j = 0;
+		while(func->map[i][j])
+		{
+			if (map[i][j] == 'P')
+			{
+				func->player_i = i;
+				func->player_j = j;
+			}
+			j++;
+		}
+		i++;
+	}
+	printf("player position player[%d][%d]\n", func->player_i, func->player_j);
+}
+
+// void check_valid_path(t_so_long *func, int i, int j)
+// {
+// 	char **map;
+// 	map = func->path_map;
+
+// 	if (map[i][j] != 'C')
+		
+// }
 
 void	check_emptyline_and_rectangle(char **argv)
 {
@@ -121,13 +235,16 @@ int main(int argc, char **argv)
 	}
 	check_emptyline_and_rectangle(argv);
 	func.map = read_map(argv[1], &func);
-	//check_walls(&func);
+	check_map_char(&func);
+	check_char_count(&func);
+	find_player_position(&func);
+	// check_valid_path(&func, func.player_i, func.player_j);
 	if (!func.map)
 		return (1);
 	i = 0;
 	while (func.map[i])
 	{
-		write(1, func.map[i], strlen(func.map[i]));
+		// write(1, func.map[i], strlen(func.map[i]));
 		free(func.map[i]);
 		i++;
 	}

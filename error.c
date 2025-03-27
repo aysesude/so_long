@@ -17,7 +17,7 @@ void	ft_print_errors(t_so_long *func)
 }
 
 void	ft_error(char *msg)
-{
-	printf("%s", msg);
+{	
+	 printf("%s", msg);
 	exit(1);
 }

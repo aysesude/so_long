@@ -14,12 +14,20 @@ typedef struct s_so_long
 	int	start_err;
 	int	coll_err;
 	int	path_err;
+	int c_err;
+	int p_err;
+	int e_err;
 
 	//OTHERS
 	int		total_rows;
 	int		row_length;
 	char	**map;
 	char	**path_map;
+	int		c_count;
+	int		p_count;
+	int		e_count;
+	int		player_i;
+	int		player_j;
 } t_so_long;
 
 void	ft_error(char *msg);
