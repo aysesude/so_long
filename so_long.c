@@ -6,7 +6,7 @@ void	ft_game_function(t_so_long *func)
 	func->win = mlx_new_window(func->mlx, (func->row_length * 64),
 			(func->total_rows * 64), "Asude");
 	mlx_loop(func->mlx);
-	xpm_to_image(func);
+	//xpm_to_image(func);
 }
 
 void xpm_to_image(t_so_long *func)
@@ -29,6 +29,23 @@ void xpm_to_image(t_so_long *func)
 			"./textures/ugly1.xpm", &i, &j);
 }
 
+void check_file_name(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while(argv[1][i])
+	{
+		i++;
+	}
+	i--;
+	printf("%d", i);
+	if(argv[1][i] != 'r' || argv[1][i - 1] != 'e'
+		|| argv[1][i - 2] != 'b' || argv[1][i - 3] != '.')
+			ft_error("File is not .ber!");
+
+}
+
 int main(int argc, char **argv)
 {
 	t_so_long	func;
@@ -40,6 +57,7 @@ int main(int argc, char **argv)
 		write(2, "Usage: ./so_long map.ber\n", 31);
 		return (1);
 	}
+	check_file_name(argv);
 	check_emptyline_and_rectangle(argv);
 	read_map(argv[1], &func);
 	check_map_char(&func);
@@ -47,7 +65,7 @@ int main(int argc, char **argv)
 	find_player_position(&func);
 	check_walls(&func);
 	check_path(&func);
-	ft_game_function(&func);
+	//ft_game_function(&func);
 	i = 0;
 	while (i < func.total_rows)
 	{

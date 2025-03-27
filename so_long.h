@@ -43,6 +43,7 @@ typedef struct s_so_long
 void	ft_error(char *msg);
 void	ft_print_errors(t_so_long *func);
 
+void	check_file_name(char **argv);
 void	count_lines(char *filename, t_so_long *func);
 void	read_map(char *filename, t_so_long *func);
 void	ft_zero(t_so_long *func);
