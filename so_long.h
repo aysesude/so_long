@@ -22,6 +22,11 @@ typedef struct s_so_long
 	//MLX
 	void	*mlx;
 	void	*win;
+	void	*background;
+	void	*door;
+	void	*acorn;
+	void	*tree;
+	void	*totoro;
 	//OTHERS
 	int		total_rows;
 	int		row_length;

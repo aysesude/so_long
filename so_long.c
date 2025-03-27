@@ -6,6 +6,27 @@ void	ft_game_function(t_so_long *func)
 	func->win = mlx_new_window(func->mlx, (func->row_length * 64),
 			(func->total_rows * 64), "Asude");
 	mlx_loop(func->mlx);
+	xpm_to_image(func);
+}
+
+void xpm_to_image(t_so_long *func)
+{
+	int	i;
+	int	j;
+
+	i = 64;
+	j = 64;
+
+	func->background = mlx_xpm_file_to_image(func->mlx,
+			"./textures/grass.xpm", &i, &j);
+	func->door = mlx_xpm_file_to_image(func->mlx,
+			"./textures/gate_xpm.xpm", &i, &j);
+	func->acorn = mlx_xpm_file_to_image(func->mlx,
+			"./textures/coin.xpm", &i, &j);
+	func->tree = mlx_xpm_file_to_image(func->mlx,
+			"./textures/wall.xpm", &i, &j);
+	func->totoro = mlx_xpm_file_to_image(func->mlx,
+			"./textures/ugly1.xpm", &i, &j);
 }
 
 int main(int argc, char **argv)
