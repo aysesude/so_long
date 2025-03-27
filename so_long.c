@@ -1,5 +1,12 @@
 #include "so_long.h"
 
+void	ft_game_function(t_so_long *func)
+{
+	func->mlx = mlx_init();
+	func->win = mlx_new_window(func->mlx, (func->row_length * 64),
+			(func->total_rows * 64), "Asude");
+	mlx_loop(func->mlx);
+}
 
 int main(int argc, char **argv)
 {
@@ -19,6 +26,7 @@ int main(int argc, char **argv)
 	find_player_position(&func);
 	check_walls(&func);
 	check_path(&func);
+	ft_game_function(&func);
 	i = 0;
 	while (i < func.total_rows)
 	{

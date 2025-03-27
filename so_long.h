@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "./mlx/mlx.h"
 
 typedef struct s_so_long
 {
@@ -18,7 +19,9 @@ typedef struct s_so_long
 	int	c_err;
 	int	p_err;
 	int	e_err;
-
+	//MLX
+	void	*mlx;
+	void	*win;
 	//OTHERS
 	int		total_rows;
 	int		row_length;
@@ -29,6 +32,7 @@ typedef struct s_so_long
 	int		e_count;
 	int		player_i;
 	int		player_j;
+
 } t_so_long;
 
 void	ft_error(char *msg);

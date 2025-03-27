@@ -214,10 +214,14 @@ void	check_emptyline_and_rectangle(char **argv)
 	tmp = ft_strlen(line);
 	while (line)
 	{
-		printf("rectangle %s",line);
-		if(line[0] == '\n')
+		if (line[0] == '\n')
 			ft_error("Empty line error");
-		if((int)ft_strlen(line) != tmp)
+		if (line[(int)ft_strlen(line) - 1] != '\n')
+		{
+			if(((int)ft_strlen(line) + 1 ) != tmp)
+				ft_error("Not rectangle");
+		}
+		else if((int)ft_strlen(line) != tmp)
 			ft_error("Not rectangle");
 		free(line);
 		line = get_next_line(fd);
@@ -255,7 +259,7 @@ void	check_valid_path(t_so_long *func, int i, int j)
 {
 	if(i < func->total_rows && j < func->row_length)
 	{
-		printf("Bakılan yer: %d %d \n", i, j);
+		// printf("Bakılan yer: %d %d \n", i, j);
 		if(func->path_map[i][j] != '1' && func->path_map[i][j] != '.')
 		{
 			func->path_map[i][j] = '.';
