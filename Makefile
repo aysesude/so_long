@@ -1,6 +1,6 @@
 NAME = so_long
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Lmlx -lmlx -framework OpenGL -framework AppKit -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 SRCS = ./get_next_line/get_next_line_utils.c \
 		./get_next_line/get_next_line.c \
 		so_long.c \
@@ -10,14 +10,14 @@ SRCS = ./get_next_line/get_next_line_utils.c \
 all: $(NAME)
 
 $(NAME): ${SRCS}
-	@make -C ./mlx
+	# @make -C ./minilibx-linux
 	@$(CC) $(SRCS) $(CFLAGS) -o $(NAME)
 	@clear
 	@echo "The make is done"
 clean:
 	@rm -rf $(NAME)
-	#@make clean -C mlx/
+	# @make clean -C minilibx-linux/
 fclean: clean
 	@rm -rf $(NAME)
-	@make clean -C mlx/
+	# @make clean -C minilibx-linux/
 re: fclean all

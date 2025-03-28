@@ -16,9 +16,6 @@ typedef struct s_so_long
 	int	coll_err;
 	int	path_err;
 	int	wall_err;
-	int	c_err;
-	int	p_err;
-	int	e_err;
 	//MLX
 	void	*mlx;
 	void	*win;
@@ -37,6 +34,8 @@ typedef struct s_so_long
 	int		e_count;
 	int		player_i;
 	int		player_j;
+	int		exit_i;
+	int		exit_j;
 
 } t_so_long;
 
@@ -55,5 +54,6 @@ void	check_emptyline_and_rectangle(char **argv);
 void	check_walls(t_so_long *func);
 void	check_valid_path(t_so_long *func, int x, int y);
 void	check_path(t_so_long *func);
+void	free_map(t_so_long *func);
 
 #endif

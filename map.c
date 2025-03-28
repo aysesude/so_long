@@ -1,5 +1,31 @@
 #include "so_long.h"
 
+void	free_map(t_so_long *func)
+{
+	int i;
+
+	if (func->map)
+	{
+		i = 0;
+		while (func->map[i])
+		{
+			free(func->map[i]);
+			i++;
+		}
+		free(func->map);
+	}
+	if (func->path_map)
+	{
+		i = 0;
+		while (func->path_map[i])
+		{
+			free(func->path_map[i]);
+			i++;
+		}
+		free(func->path_map);
+	}
+}
+
 void	count_lines(char *filename, t_so_long *func)
 {
 	int fd;
@@ -11,9 +37,16 @@ void	count_lines(char *filename, t_so_long *func)
 		ft_error("fd error");
 	count = 1;
 	line = get_next_line(fd);
-	func->row_length = ft_strlen(line) - 1;
+	if (line)
+	{
+	    if (line[ft_strlen(line) - 1] == '\n')
+	        func->row_length = ft_strlen(line) - 1;
+	    else
+	        func->row_length = ft_strlen(line);
+	}
 	while (line)
 	{
+		free(line);
 		line = get_next_line(fd);
 		if (line)
 		{
@@ -22,8 +55,8 @@ void	count_lines(char *filename, t_so_long *func)
 		}
 		if(line)
 			count++;
-		free(line);
 	}
+	free(line);
 	close(fd);
 	func->total_rows = count;
 	printf("row_length: %d \ntotal_rows: %d\n", func->row_length, func->total_rows);
@@ -41,24 +74,32 @@ void	read_map(char *filename, t_so_long *func)
 		exit(0);
 	func->map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
 	func->path_map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
-	if (!func->map)
+	if (!func->map || !func->path_map)
+	{
+		free(func->map);
+		free(func->path_map);
 		exit(0);
-	if (!func->path_map)
-		exit(0);
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		free(func->map);
-		exit(0);
+		free(func->path_map);
+		ft_error("File open error");
 	}
 	i = 0;
 	while (i < func->total_rows)
 	{
 		line = get_next_line(fd);
 		if (line)
+		{
 			line[(func->row_length)] = '\0';
-		func->map[i] = line;
-		func->path_map[i] = line;
+			func->map[i] = ft_strdup(line);
+			func->path_map[i] = ft_strdup(line);
+			if (!func->map[i] || !func->path_map[i])
+				ft_error("Memory allocation error");
+		}
+		free(line);
 		i++;
 	}
 	func->map[i] = NULL;
@@ -74,9 +115,7 @@ void	ft_zero(t_so_long *func)
 	func->start_err = 0;
 	func->coll_err = 0;
 	func->path_err = 0;
-	func->c_err = 0;
-	func->e_err = 0;
-	func->p_err = 0;
+	func->wall_err = 0;
 
 	//OTHERS
 	func->total_rows = 0;
@@ -96,6 +135,8 @@ void	check_map_char(t_so_long *func)
 
 	i = 0;
 	j = 0;
+	if (!func->map)
+    	ft_error("Map is not initialized properly.");
 	map = func->map;
 	while (i < func->total_rows)
 	{
@@ -105,6 +146,11 @@ void	check_map_char(t_so_long *func)
 			if (map[i][j] != 'C' && map[i][j] != '0' && map[i][j] != '1' && map[i][j] != 'E'
 				&& map[i][j] != 'P')
 					ft_error("There is character rather than C 0 1 E P");
+			if(map[i][j] == 'E')
+			{
+				func->exit_i = i;
+				func->exit_j = j;
+			}
 			j++;
 		}
 		i++;
@@ -113,31 +159,17 @@ void	check_map_char(t_so_long *func)
 void	error_char_count(t_so_long *func)
 {
 	if (func->c_count == 0)
-	{
-		func->c_err = 1;
-		ft_error("There is no collectable in map\n");
-	}
+		func->coll_err = 1;
 	if (func->p_count == 0)
-	{
-		func->p_err = 1;
-		ft_error("There is no player in map\n");
-	}
+		func->start_err = 1;
 	if (func->p_count > 1)
-	{
-		func->p_err = 2;
-		ft_error("There is more than one  player in map\n");
-	}
+		func->start_err = 2;
 	if (func->e_count == 0)
-	{
-		func->e_err = 1;
-		ft_error("There is no exit in map\n");
-	}
+		func->exit_err = 1;
 	if (func->e_count > 1)
-	{
-		func->e_err = 2;
-		ft_error("There is more than one  exit in map\n");
-	}
+		func->exit_err = 2;
 }
+
 void	check_char_count(t_so_long *func)
 {
 	int	i;
@@ -191,15 +223,6 @@ void	find_player_position(t_so_long *func)
 	}
 	printf("player position player[%d][%d]\n", func->player_i, func->player_j);
 }
-
-// void check_valid_path(t_so_long *func, int i, int j)
-// {
-// 	char **map;
-// 	map = func->path_map;
-
-// 	if (map[i][j] != 'C')
-
-// }
 
 void	check_emptyline_and_rectangle(char **argv)
 {
@@ -257,6 +280,8 @@ void	check_walls(t_so_long *func)
 
 void	check_valid_path(t_so_long *func, int i, int j)
 {
+	if (i < 0 || j < 0 || i >= func->total_rows || j >= func->row_length)
+		return; // Harita dışına çıkmayı engelle
 	if(i < func->total_rows && j < func->row_length)
 	{
 		// printf("Bakılan yer: %d %d \n", i, j);
