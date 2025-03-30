@@ -125,6 +125,8 @@ void	ft_zero(t_so_long *func)
 	func->p_count = 0;
 	func->player_i = 0;
 	func->player_j = 0;
+	func->door_i = 0;
+	func->door_j = 0;
 
 }
 void	check_map_char(t_so_long *func)
@@ -196,6 +198,31 @@ void	check_char_count(t_so_long *func)
 		i++;
 	}
 		error_char_count(func);
+}
+void	find_door_position(t_so_long *func)
+{
+	int	i;
+	int	j;
+	char **map;
+
+	i = 0;
+	j = 0;
+	map = func->map;
+	while (i < func->total_rows)
+	{
+		j = 0;
+		while(func->map[i][j])
+		{
+			if (map[i][j] == 'E')
+			{
+				func->door_i = i;
+				func->door_j = j;
+			}
+			j++;
+		}
+		i++;
+	}
+	printf("door position player[%d][%d]\n", func->door_i, func->door_j);
 }
 
 void	find_player_position(t_so_long *func)

@@ -25,6 +25,8 @@ typedef struct s_so_long
 	void	*tree;
 	void	*totoro;
 	//OTHERS
+	int		door_i;
+	int		door_j;
 	int		total_rows;
 	int		row_length;
 	char	**map;
@@ -55,5 +57,6 @@ void	check_walls(t_so_long *func);
 void	check_valid_path(t_so_long *func, int x, int y);
 void	check_path(t_so_long *func);
 void	free_map(t_so_long *func);
+void	find_door_position(t_so_long *func);
 
 #endif
