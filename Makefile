@@ -10,14 +10,14 @@ SRCS = ./get_next_line/get_next_line_utils.c \
 all: $(NAME)
 
 $(NAME): ${SRCS}
-	# @make -C ./minilibx-linux
-	@$(CC) $(SRCS) $(CFLAGS) -o $(NAME)
+	@make -C ./minilibx-linux
+	@$(CC) $(SRCS) $(CFLAGS) ./minilibx-linux/libmlx.a  -lX11 -lXext -lm -o $(NAME)
 	@clear
 	@echo "The make is done"
 clean:
 	@rm -rf $(NAME)
-	# @make clean -C minilibx-linux/
+	@make clean -C minilibx-linux/
 fclean: clean
 	@rm -rf $(NAME)
-	# @make clean -C minilibx-linux/
+	@make clean -C minilibx-linux/
 re: fclean all

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "./mlx/mlx.h"
+#include "./minilibx-linux/mlx.h"
 
 typedef struct s_so_long
 {
@@ -58,5 +58,7 @@ void	check_valid_path(t_so_long *func, int x, int y);
 void	check_path(t_so_long *func);
 void	free_map(t_so_long *func);
 void	find_door_position(t_so_long *func);
+void 	xpm_to_image(t_so_long *func);
+void 	image_to_map(t_so_long *func);
 
 #endif

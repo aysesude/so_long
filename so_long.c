@@ -2,10 +2,12 @@
 
 void image_to_map(t_so_long *func)
 {
+	int i = 0;
+	int j = 0;
 	mlx_put_image_to_window(func->mlx, func->win, func->totoro,
-		func->player_i * 64, func->player_j * 64);
+		func->player_j * 64, func->player_i * 64);
 	mlx_put_image_to_window(func->mlx, func->win, func->door,
-		func->door_i * 64, func->door_y * 64);
+		func->door_j * 64, func->door_i * 64);
 		while (i < func->total_rows)
 		{
 			j = 0;
@@ -30,8 +32,8 @@ void	ft_game_function(t_so_long *func)
 	func->mlx = mlx_init();
 	func->win = mlx_new_window(func->mlx, (func->row_length * 64),
 			(func->total_rows * 64), "Asude");
-	//xpm_to_image(func);
-	//image_to_map(func);
+	xpm_to_image(func);
+	image_to_map(func);
 	mlx_loop(func->mlx);
 }
 
@@ -44,15 +46,15 @@ void xpm_to_image(t_so_long *func)
 	j = 64;
 
 	func->background = mlx_xpm_file_to_image(func->mlx,
-			"./textures/grass.xpm", &i, &j);
+			"./textures/background.xpm", &i, &j);
 	func->door = mlx_xpm_file_to_image(func->mlx,
-			"./textures/gate_xpm.xpm", &i, &j);
+			"./textures/door.xpm", &i, &j);
 	func->acorn = mlx_xpm_file_to_image(func->mlx,
-			"./textures/coin.xpm", &i, &j);
+			"./textures/acorn.xpm", &i, &j);
 	func->tree = mlx_xpm_file_to_image(func->mlx,
-			"./textures/wall.xpm", &i, &j);
+			"./textures/tree.xpm", &i, &j);
 	func->totoro = mlx_xpm_file_to_image(func->mlx,
-			"./textures/ugly1.xpm", &i, &j);
+			"./textures/totoro.xpm", &i, &j);
 }
 
 void check_file_name(char **argv)
@@ -79,7 +81,7 @@ int main(int argc, char **argv)
 	ft_zero(&func);
 	if (argc != 2)
 	{
-		write(2, "Usage: ./so_long map.ber\n", 31);
+		write(2, "Usage: ./so_long map.ber\n", 26);
 		return (1);
 	}
 	check_file_name(argv); //hatalıysa çıkış var
@@ -91,7 +93,7 @@ int main(int argc, char **argv)
 	find_door_position(&func);
 	check_walls(&func);
 	check_path(&func);
-	// ft_game_function(&func);
+	ft_game_function(&func);
 	i = 0;
 	while (i < func.total_rows)
 	{
