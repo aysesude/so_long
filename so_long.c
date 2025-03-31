@@ -15,6 +15,7 @@ int	destroy_window(t_so_long *func)
 	mlx_destroy_image(func->mlx, func->door);
 	mlx_destroy_image(func->mlx, func->tree);
 	mlx_destroy_image(func->mlx, func->totoro);
+	mlx_destroy_image(func->mlx, func->totoro_with_door);
 	mlx_destroy_window(func->mlx, func->win);
 	mlx_destroy_display(func->mlx);
 	free(func->mlx);
