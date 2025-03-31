@@ -1,5 +1,72 @@
 #include "so_long.h"
+int	destroy_window(t_so_long *func)
+{
+	int	i;
 
+	i = 0;
+	while (i < func->total_rows)
+	{
+		free(func->map[i]);
+		i++;
+	}
+	free(func->map);
+	mlx_destroy_image(func->mlx, func->acorn);
+	mlx_destroy_image(func->mlx, func->background);
+	mlx_destroy_image(func->mlx, func->door);
+	mlx_destroy_image(func->mlx, func->tree);
+	mlx_destroy_image(func->mlx, func->totoro);
+	mlx_destroy_window(func->mlx, func->win);
+	mlx_destroy_display(func->mlx);
+	free(func->mlx);
+	exit(0);
+}
+
+void change_map(t_so_long *func, int i, int j, char c)
+{
+	char	**map;
+	int		p_i;
+	int		p_j;
+
+	p_i = 0;
+	p_j = 0;
+	if (c == '0')
+		map[p_i][p_j] =
+}
+
+void	move_player(t_so_long *func, int i, int j)
+{
+	char **map;
+	int p_i;
+	int p_j;
+
+	map = func->map;
+	p_i = func->player_i;
+	p_j = func->player_j;
+	if (map[p_i + i][p_j + j] == '1')
+		return (0);
+	else if (map[p_i + i][p_j + j] == '0')
+		change_map(func, p_i + i, p_i + j,'0');
+
+
+}
+int	key_press(int keycode, t_so_long *func)
+{
+	if (keycode == 65307)
+	{
+		printf("You lost! Moves:");
+		destroy_window(func);
+		exit(0);
+	}
+	else if ((keycode == 119 && move_player(func, -1, 0) == 1) || (keycode == 97
+			&& move_player(func, 0, -1) == 1) || (keycode == 115
+			&& move_player(func, 1, 0) == 1) || (keycode == 100 && move_player(func,
+				0, 1) == 1))
+	{
+		func->moves++;
+		printf("moves: %d\n", func->moves);
+	}
+	return (0);
+}
 void image_to_map(t_so_long *func)
 {
 	int i = 0;
@@ -34,6 +101,8 @@ void	ft_game_function(t_so_long *func)
 			(func->total_rows * 64), "Asude");
 	xpm_to_image(func);
 	image_to_map(func);
+	mlx_hook(func->win, 17, 1L << 17, destroy_window, func);
+	mlx_hook(func->win, 2, 1L << 0, key_press, func);
 	mlx_loop(func->mlx);
 }
 

@@ -127,6 +127,7 @@ void	ft_zero(t_so_long *func)
 	func->player_j = 0;
 	func->door_i = 0;
 	func->door_j = 0;
+	func->moves = 0;
 
 }
 void	check_map_char(t_so_long *func)

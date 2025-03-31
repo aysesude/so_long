@@ -38,6 +38,7 @@ typedef struct s_so_long
 	int		player_j;
 	int		exit_i;
 	int		exit_j;
+	int		moves;
 
 } t_so_long;
 
@@ -60,5 +61,6 @@ void	free_map(t_so_long *func);
 void	find_door_position(t_so_long *func);
 void 	xpm_to_image(t_so_long *func);
 void 	image_to_map(t_so_long *func);
+int		destroy_window(t_so_long *func);
 
 #endif
