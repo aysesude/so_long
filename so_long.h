@@ -24,6 +24,7 @@ typedef struct s_so_long
 	void	*acorn;
 	void	*tree;
 	void	*totoro;
+	void	*totoro_with_door;
 	//OTHERS
 	int		door_i;
 	int		door_j;

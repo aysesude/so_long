@@ -1,6 +1,6 @@
 NAME = so_long
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 SRCS = ./get_next_line/get_next_line_utils.c \
 		./get_next_line/get_next_line.c \
 		so_long.c \

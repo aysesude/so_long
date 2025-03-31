@@ -20,32 +20,77 @@ int	destroy_window(t_so_long *func)
 	free(func->mlx);
 	exit(0);
 }
-
-void change_map(t_so_long *func, int i, int j, char c)
+void check_on_exit(t_so_long *func, int i, int j)
+{
+	if (func->map[i][j] == 'E' && func->c_count == 0)
+		destroy_window(func);
+	if (func->map[i][j] == 'E')
+	{
+		func->map[func->player_i][func->player_j] = '0';
+		func->map[i][j] = 'S';
+	}
+	else if(func->map[func->player_i][func->player_j] == 'S')
+	{
+		func->map[func->player_i][func->player_j] = 'E';
+		func->map[i][j] = 'P';
+	}
+	else
+	{
+		func->map[func->player_i][func->player_j] = '0';
+		func->map[i][j] = 'P';
+	}
+}
+void change_map(t_so_long *func, int i, int j)
 {
 	char	**map;
-	int		p_i;
-	int		p_j;
+	// int a = 0;
 
-	p_i = 0;
-	p_j = 0;
-	if (c == '0')
-		map[p_i][p_j] =
+	map = func->map;
+	if (map[i][j] == '0')
+	{
+		check_on_exit(func, i, j);
+		func->player_i = i;
+		func->player_j = j;
+	}
+	else if (map[i][j] == 'C')
+	{
+		check_on_exit(func, i, j);
+		func->player_i = i;
+		func->player_j = j;
+		func->c_count--;
+	}
+	else if (map[i][j] == 'E')
+	{
+		check_on_exit(func, i, j);
+		func->player_i = i;
+		func->player_j = j;
+	}
+	// while(a < func->total_rows)
+	// {
+	// 	printf("%s\n", map[a]);
+	// 	a++;
+	// }
 }
 
-void	move_player(t_so_long *func, int i, int j)
+int	move_player(t_so_long *func, int i, int j)
 {
 	char **map;
 	int p_i;
 	int p_j;
-
 	map = func->map;
 	p_i = func->player_i;
 	p_j = func->player_j;
+	// printf("check i %d j %d p_i %d p_j %d\n", i, j, p_i, p_j);
 	if (map[p_i + i][p_j + j] == '1')
 		return (0);
-	else if (map[p_i + i][p_j + j] == '0')
-		change_map(func, p_i + i, p_i + j,'0');
+	else if (map[p_i + i][p_j + j] == '0' || map[p_i + i][p_j + j] == 'C' \
+		|| map[p_i + i][p_j + j] == 'E')
+	{	
+		change_map(func, p_i + i, p_j + j);
+		image_to_map(func);
+		return (1);
+	}
+	return (1);
 
 
 }
@@ -53,7 +98,7 @@ int	key_press(int keycode, t_so_long *func)
 {
 	if (keycode == 65307)
 	{
-		printf("You lost! Moves:");
+		printf("You lost! Moves: %d", func->moves++);
 		destroy_window(func);
 		exit(0);
 	}
@@ -64,6 +109,7 @@ int	key_press(int keycode, t_so_long *func)
 	{
 		func->moves++;
 		printf("moves: %d\n", func->moves);
+		// printf("c_count %d\n", func->c_count);
 	}
 	return (0);
 }
@@ -88,6 +134,9 @@ void image_to_map(t_so_long *func)
 						j * 64, i * 64);
 				else if (func->map[i][j] == 'C')
 					mlx_put_image_to_window(func->mlx, func->win, func->acorn,
+						j * 64, i * 64);
+				else if (func->map[i][j] == 'S')
+					mlx_put_image_to_window(func->mlx, func->win, func->totoro_with_door,
 						j * 64, i * 64);
 				j++;
 			}
@@ -124,6 +173,8 @@ void xpm_to_image(t_so_long *func)
 			"./textures/tree.xpm", &i, &j);
 	func->totoro = mlx_xpm_file_to_image(func->mlx,
 			"./textures/totoro.xpm", &i, &j);
+	func->totoro_with_door = mlx_xpm_file_to_image(func->mlx,
+		"./textures/totoro_with_door.xpm", &i, &j);
 }
 
 void check_file_name(char **argv)
@@ -162,6 +213,7 @@ int main(int argc, char **argv)
 	find_door_position(&func);
 	check_walls(&func);
 	check_path(&func);
+	printf("c_count %d\n", func.c_count);
 	ft_game_function(&func);
 	i = 0;
 	while (i < func.total_rows)
