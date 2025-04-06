@@ -1,15 +1,6 @@
 #include "so_long.h"
 int	destroy_window(t_so_long *func)
 {
-	int	i;
-
-	i = 0;
-	while (i < func->total_rows)
-	{
-		free(func->map[i]);
-		i++;
-	}
-	free(func->map);
 	mlx_destroy_image(func->mlx, func->acorn);
 	mlx_destroy_image(func->mlx, func->background);
 	mlx_destroy_image(func->mlx, func->door);
@@ -18,8 +9,8 @@ int	destroy_window(t_so_long *func)
 	mlx_destroy_image(func->mlx, func->totoro_with_door);
 	mlx_destroy_window(func->mlx, func->win);
 	mlx_destroy_display(func->mlx);
-	free(func->mlx);
-	exit(0);
+	ft_error_map_game_exit(func, 0);
+	return 0;
 }
 void check_on_exit(t_so_long *func, int i, int j)
 {
@@ -188,7 +179,7 @@ void check_file_name(char **argv)
 		i++;
 	}
 	i--;
-	printf("%d", i);
+	// printf("%d", i);
 	if(argv[1][i] != 'r' || argv[1][i - 1] != 'e'
 		|| argv[1][i - 2] != 'b' || argv[1][i - 3] != '.')
 			ft_error("File is not .ber!");
@@ -197,7 +188,7 @@ void check_file_name(char **argv)
 int main(int argc, char **argv)
 {
 	t_so_long	func;
-	int			i;
+	// int			i;
 
 	ft_zero(&func);
 	if (argc != 2)
@@ -214,17 +205,17 @@ int main(int argc, char **argv)
 	find_door_position(&func);
 	check_walls(&func);
 	check_path(&func);
-	printf("c_count %d\n", func.c_count);
-	ft_game_function(&func);
-	i = 0;
-	while (i < func.total_rows)
-	{
-		write(1, func.path_map[i], ft_strlen(func.path_map[i]));
-		write(1, "\n", 1);
-		free(func.path_map[i]);
-		i++;
-	}
 	ft_print_errors(&func);
-	free(func.map);
-	return (0);
+	// printf("c_count %d\n", func.c_count);
+	ft_game_function(&func);
+	// i = 0;
+	// while (i < func.total_rows)
+	// {
+	// 	write(1, func.path_map[i], ft_strlen(func.path_map[i]));
+	// 	write(1, "\n", 1);
+	// 	free(func.path_map[i]);
+	// 	i++;
+	// }
+	// free(func.map);
+	// return (0);
 }

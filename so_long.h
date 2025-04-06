@@ -16,6 +16,7 @@ typedef struct s_so_long
 	int	coll_err;
 	int	path_err;
 	int	wall_err;
+	int char_err;
 	//MLX
 	void	*mlx;
 	void	*win;
@@ -45,7 +46,7 @@ typedef struct s_so_long
 
 void	ft_error(char *msg);
 void	ft_print_errors(t_so_long *func);
-
+void ft_error_map_game_exit(t_so_long *func, int i);
 void	check_file_name(char **argv);
 void	count_lines(char *filename, t_so_long *func);
 void	read_map(char *filename, t_so_long *func);

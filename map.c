@@ -59,7 +59,7 @@ void	count_lines(char *filename, t_so_long *func)
 	free(line);
 	close(fd);
 	func->total_rows = count;
-	printf("row_length: %d \ntotal_rows: %d\n", func->row_length, func->total_rows);
+	// printf("row_length: %d \ntotal_rows: %d\n", func->row_length, func->total_rows);
 }
 
 void	read_map(char *filename, t_so_long *func)
@@ -83,8 +83,7 @@ void	read_map(char *filename, t_so_long *func)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		free(func->map);
-		free(func->path_map);
+		free_map(func);
 		ft_error("File open error");
 	}
 	i = 0;
@@ -116,6 +115,7 @@ void	ft_zero(t_so_long *func)
 	func->coll_err = 0;
 	func->path_err = 0;
 	func->wall_err = 0;
+	func->char_err = 0;
 
 	//OTHERS
 	func->total_rows = 0;
@@ -148,7 +148,7 @@ void	check_map_char(t_so_long *func)
 		{
 			if (map[i][j] != 'C' && map[i][j] != '0' && map[i][j] != '1' && map[i][j] != 'E'
 				&& map[i][j] != 'P')
-					ft_error("There is character rather than C 0 1 E P");
+					func->char_err = 1;
 			if(map[i][j] == 'E')
 			{
 				func->exit_i = i;
@@ -223,7 +223,7 @@ void	find_door_position(t_so_long *func)
 		}
 		i++;
 	}
-	printf("door position player[%d][%d]\n", func->door_i, func->door_j);
+	// printf("door position player[%d][%d]\n", func->door_i, func->door_j);
 }
 
 void	find_player_position(t_so_long *func)
@@ -249,7 +249,7 @@ void	find_player_position(t_so_long *func)
 		}
 		i++;
 	}
-	printf("player position player[%d][%d]\n", func->player_i, func->player_j);
+	// printf("player position player[%d][%d]\n", func->player_i, func->player_j);
 }
 
 void	check_emptyline_and_rectangle(char **argv)
@@ -288,20 +288,14 @@ void	check_walls(t_so_long *func)
 	while(i < func->row_length)
 	{
 		if(func->map[0][i] != '1' || func->map[func->total_rows - 1][i] != '1')
-		{
-			ft_error("Wall error");
 			func->wall_err = 1;
-		}
 		i++;
 	}
 	i = 0;
 	while(i < func->total_rows)
 	{
 		if(func->map[i][func->row_length - 1] != '1' || func->map[i][0] != '1')
-		{
-			ft_error("Wall error");
 			func->wall_err = 1;
-		}
 		i++;
 	}
 }
@@ -338,7 +332,7 @@ void	check_path(t_so_long *func)
 		while(j < func->row_length)
 		{
 			if(func->path_map[i][j] == 'E' || func->path_map[i][j] == 'C')
-				ft_error("There is no valid path");
+				func->path_err = 1;
 			j++;
 		}
 		i++;
