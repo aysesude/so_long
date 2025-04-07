@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 01:25:45 by aycami           ###   ########.fr       */
+/*   Updated: 2025/04/07 01:35:15 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,36 +112,41 @@ int	key_press(int keycode, t_so_long *func)
 	}
 	return (0);
 }
+
+void	put_others_to_window(t_so_long *func, int i, int j)
+{
+	while (i < func->total_rows)
+	{
+		j = 0;
+		while (func->map[i][j])
+		{
+			if (func->map[i][j] == '1')
+				mlx_put_image_to_window(func->mlx, func->win, func->tree,
+					j * 64, i * 64);
+			else if (func->map[i][j] == '0')
+				mlx_put_image_to_window(func->mlx, func->win, func->background,
+					j * 64, i * 64);
+			else if (func->map[i][j] == 'C')
+				mlx_put_image_to_window(func->mlx, func->win, func->acorn,
+					j * 64, i * 64);
+			else if (func->map[i][j] == 'S')
+				mlx_put_image_to_window(func->mlx, func->win,
+					func->totoro_with_door, j * 64, i * 64);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	image_to_map(t_so_long *func)
 {
-	int i = 0;
-	int j = 0;
 	mlx_put_image_to_window(func->mlx, func->win, func->totoro,
 		func->player_j * 64, func->player_i * 64);
 	mlx_put_image_to_window(func->mlx, func->win, func->door,
 		func->door_j * 64, func->door_i * 64);
-		while (i < func->total_rows)
-		{
-			j = 0;
-			while (func->map[i][j])
-			{
-				if (func->map[i][j] == '1')
-					mlx_put_image_to_window(func->mlx, func->win, func->tree,
-						j * 64, i * 64);
-				else if (func->map[i][j] == '0')
-					mlx_put_image_to_window(func->mlx, func->win, func->background,
-						j * 64, i * 64);
-				else if (func->map[i][j] == 'C')
-					mlx_put_image_to_window(func->mlx, func->win, func->acorn,
-						j * 64, i * 64);
-				else if (func->map[i][j] == 'S')
-					mlx_put_image_to_window(func->mlx, func->win, func->totoro_with_door,
-						j * 64, i * 64);
-				j++;
-			}
-			i++;
-		}
+	put_others_to_window(func, 0, 0);
 }
+
 void	ft_game_function(t_so_long *func)
 {
 	func->mlx = mlx_init();
@@ -154,14 +159,13 @@ void	ft_game_function(t_so_long *func)
 	mlx_loop(func->mlx);
 }
 
-void xpm_to_image(t_so_long *func)
+void	xpm_to_image(t_so_long *func)
 {
 	int	i;
 	int	j;
 
 	i = 64;
 	j = 64;
-
 	func->background = mlx_xpm_file_to_image(func->mlx,
 			"./textures/background.xpm", &i, &j);
 	func->door = mlx_xpm_file_to_image(func->mlx,
@@ -173,25 +177,25 @@ void xpm_to_image(t_so_long *func)
 	func->totoro = mlx_xpm_file_to_image(func->mlx,
 			"./textures/totoro.xpm", &i, &j);
 	func->totoro_with_door = mlx_xpm_file_to_image(func->mlx,
-		"./textures/totoro_with_door.xpm", &i, &j);
+			"./textures/totoro_with_door.xpm", &i, &j);
 }
 
-void check_file_name(char **argv)
+void	check_file_name(char **argv)
 {
 	int	i;
 
 	i = 0;
-	while(argv[1][i])
+	while (argv[1][i])
 	{
 		i++;
 	}
 	i--;
-	if(argv[1][i] != 'r' || argv[1][i - 1] != 'e'
+	if (argv[1][i] != 'r' || argv[1][i - 1] != 'e'
 		|| argv[1][i - 2] != 'b' || argv[1][i - 3] != '.')
-			ft_error("File is not .ber!");
+		ft_error("File is not .ber!");
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_so_long	func;
 
