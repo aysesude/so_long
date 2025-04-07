@@ -1,24 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 07:39:23 by aycami"           #+#    #+#             */
+/*   Updated: 2025/04/07 07:40:29 by aycami"          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
-#include "./get_next_line/get_next_line.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "./minilibx-linux/mlx.h"
+# include "./get_next_line/get_next_line.h"
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+# include "./minilibx-linux/mlx.h"
 
 typedef struct s_so_long
 {
 	//ERRORS
-	int	exit_err;
-	int	start_err;
-	int	coll_err;
-	int	path_err;
-	int	wall_err;
-	int char_err;
-	int	empty_err;
-	int	rec_err;
+	int		exit_err;
+	int		start_err;
+	int		coll_err;
+	int		path_err;
+	int		wall_err;
+	int		char_err;
+	int		empty_err;
+	int		rec_err;
 	//MLX
 	void	*mlx;
 	void	*win;
@@ -46,7 +58,7 @@ typedef struct s_so_long
 	int		i;
 	int		j;
 
-} t_so_long;
+}	t_so_long;
 
 // so_long.c
 void	ft_zero(t_so_long *func);

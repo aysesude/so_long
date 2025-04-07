@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 07:36:23 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 07:54:29 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,27 @@ void	check_error_flag_empty_rec(t_so_long *func)
 		ft_error("Not Rectangle");
 }
 
+void	check_if_there_is_a_map(char **argv)
+{
+	int		fd;
+	char	*line;
+	int		flag;
+
+	flag = 0;
+	fd = open(argv[1], O_RDONLY);
+	line = get_next_line(fd);
+	while(line)
+	{
+		if (line)
+			flag = 1;
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	if (flag == 0)
+		ft_error("There is a empty .ber file");
+}
+
 int	main(int argc, char **argv)
 {
 	t_so_long	func;
@@ -117,6 +138,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	check_file_name(argv);
+	check_if_there_is_a_map(argv);
 	check_emptyline_and_rectangle(&func, argv);
 	check_error_flag_empty_rec(&func);
 	read_map(argv[1], &func);
