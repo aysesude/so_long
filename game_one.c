@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_one.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 01:35:15 by aycami           ###   ########.fr       */
+/*   Updated: 2025/04/07 08:27:01 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	destroy_window(t_so_long *func)
 	mlx_destroy_image(func->mlx, func->totoro_with_door);
 	mlx_destroy_window(func->mlx, func->win);
 	mlx_destroy_display(func->mlx);
+	free(func->mlx);
 	ft_error_map_game_exit(func, 0);
 	return (0);
 }
