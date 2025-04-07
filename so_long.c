@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 08:24:42 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 08:30:02 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,35 +96,6 @@ void	check_walls(t_so_long *func)
 			func->wall_err = 1;
 		i++;
 	}
-}
-
-void	check_error_flag_empty_rec(t_so_long *func)
-{
-	if (func->empty_err == 1)
-		ft_error("There is a empty line");
-	if (func->rec_err == 1)
-		ft_error("Not Rectangle");
-}
-
-void	check_if_there_is_a_map(char **argv)
-{
-	int		fd;
-	char	*line;
-	int		flag;
-
-	flag = 0;
-	fd = open(argv[1], O_RDONLY);
-	line = get_next_line(fd);
-	while(line)
-	{
-		if (line)
-			flag = 1;
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	if (flag == 0)
-		ft_error("There is a empty .ber file");
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 07:39:23 by aycami"           #+#    #+#             */
-/*   Updated: 2025/04/07 07:40:29 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 08:35:48 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,16 @@ void	check_path(t_so_long *func);
 // read_map.c
 void	count_lines(char *filename, t_so_long *func);
 void	read_map(char *filename, t_so_long *func);
+void	free_map(t_so_long *func);
 // find_pos.c
 void	find_door_position(t_so_long *func);
 void	find_player_position(t_so_long *func);
 // error.c
-void	free_map(t_so_long *func);
 void	ft_print_errors(t_so_long *func);
 void	ft_error_map_game_exit(t_so_long *func, int i);
 void	ft_error(char *msg);
+void	check_error_flag_empty_rec(t_so_long *func);
+void	check_if_there_is_a_map(char **argv);
 // game_one.c
 int		destroy_window(t_so_long *func);
 void	check_on_exit(t_so_long *func, int i, int j);

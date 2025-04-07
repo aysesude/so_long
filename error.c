@@ -6,37 +6,11 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 08:04:51 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 08:33:15 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	free_map(t_so_long *func)
-{
-	int	i;
-
-	if (func->map)
-	{
-		i = 0;
-		while (func->map[i])
-		{
-			free(func->map[i]);
-			i++;
-		}
-		free(func->map);
-	}
-	if (func->path_map)
-	{
-		i = 0;
-		while (func->path_map[i])
-		{
-			free(func->path_map[i]);
-			i++;
-		}
-		free(func->path_map);
-	}
-}
 
 void	ft_print_errors(t_so_long *func)
 {
@@ -56,6 +30,35 @@ void	ft_print_errors(t_so_long *func)
 		|| func->start_err == 2 || func->coll_err == 1 || func->path_err == 1
 		|| func->wall_err == 1 || func->char_err == 1)
 		ft_error_map_game_exit(func, 1);
+}
+
+void	check_error_flag_empty_rec(t_so_long *func)
+{
+	if (func->empty_err == 1)
+		ft_error("There is a empty line");
+	if (func->rec_err == 1)
+		ft_error("Not Rectangle");
+}
+
+void	check_if_there_is_a_map(char **argv)
+{
+	int		fd;
+	char	*line;
+	int		flag;
+
+	flag = 0;
+	fd = open(argv[1], O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (line)
+			flag = 1;
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	if (flag == 0)
+		ft_error("There is a empty .ber file");
 }
 
 void	ft_error_map_game_exit(t_so_long *func, int i)

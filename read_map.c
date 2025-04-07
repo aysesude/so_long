@@ -3,14 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 01:35:15 by aycami           ###   ########.fr       */
+/*   Updated: 2025/04/07 08:47:05 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	free_map(t_so_long *func)
+{
+	int	i;
+
+	if (func->map)
+	{
+		i = 0;
+		while (func->map[i])
+		{
+			free(func->map[i]);
+			i++;
+		}
+		free(func->map);
+	}
+	if (func->path_map)
+	{
+		i = 0;
+		while (func->path_map[i])
+		{
+			free(func->path_map[i]);
+			i++;
+		}
+		free(func->path_map);
+	}
+}
+
+void	find_row_lenght(t_so_long *func, char *line)
+{
+	if (line)
+	{
+		if (line[ft_strlen(line) - 1] == '\n')
+			func->row_length = ft_strlen(line) - 1;
+		else
+			func->row_length = ft_strlen(line);
+	}
+}
 
 void	count_lines(char *filename, t_so_long *func)
 {
@@ -23,13 +60,7 @@ void	count_lines(char *filename, t_so_long *func)
 		ft_error("fd error");
 	count = 1;
 	line = get_next_line(fd);
-	if (line)
-	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			func->row_length = ft_strlen(line) - 1;
-		else
-			func->row_length = ft_strlen(line);
-	}
+	find_row_lenght(func, line);
 	while (line)
 	{
 		free(line);
@@ -53,7 +84,6 @@ void	read_map(char *filename, t_so_long *func)
 	char	*line;
 	int		i;
 
-	i = 0;
 	count_lines(filename, func);
 	if (func->total_rows <= 0)
 		exit(0);
