@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 08:47:05 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 08:59:10 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,29 +78,11 @@ void	count_lines(char *filename, t_so_long *func)
 	func->total_rows = count;
 }
 
-void	read_map(char *filename, t_so_long *func)
+void	take_map(t_so_long *func, int fd)
 {
-	int		fd;
-	char	*line;
 	int		i;
+	char	*line;
 
-	count_lines(filename, func);
-	if (func->total_rows <= 0)
-		exit(0);
-	func->map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
-	func->path_map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
-	if (!func->map || !func->path_map)
-	{
-		free(func->map);
-		free(func->path_map);
-		exit(0);
-	}
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		free_map(func);
-		ft_error("File open error");
-	}
 	i = 0;
 	while (i < func->total_rows + 1)
 	{
@@ -121,4 +103,28 @@ void	read_map(char *filename, t_so_long *func)
 	func->map[i] = NULL;
 	func->path_map[i] = NULL;
 	close(fd);
+}
+
+void	read_map(char *filename, t_so_long *func)
+{
+	int		fd;
+
+	count_lines(filename, func);
+	if (func->total_rows <= 0)
+		exit(0);
+	func->map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
+	func->path_map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
+	if (!func->map || !func->path_map)
+	{
+		free(func->map);
+		free(func->path_map);
+		exit(0);
+	}
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		free_map(func);
+		ft_error("File open error");
+	}
+	take_map(func, fd);
 }
