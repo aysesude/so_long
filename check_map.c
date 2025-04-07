@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 01:35:15 by aycami           ###   ########.fr       */
+/*   Updated: 2025/04/07 09:09:28 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,21 @@ void	check_map_char(t_so_long *func)
 {
 	int		i;
 	int		j;
-	char	**map;
 
 	i = 0;
 	j = 0;
 	if (!func->map)
 		ft_error("Map is not initialized properly.");
-	map = func->map;
 	while (i < func->total_rows)
 	{
 		j = 0;
 		while (func->map[i][j])
 		{
-			if (map[i][j] != 'C' && map[i][j] != '0' && map[i][j] != '1'
-				&& map[i][j] != 'E' && map[i][j] != 'P')
+			if (func->map[i][j] != 'C' && func->map[i][j] != '0' &&
+				func->map[i][j] != '1' && func->map[i][j] != 'E' &&
+				func->map[i][j] != 'P')
 				func->char_err = 1;
-			if (map[i][j] == 'E')
+			if (func->map[i][j] == 'E')
 			{
 				func->exit_i = i;
 				func->exit_j = j;
