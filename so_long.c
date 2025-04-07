@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 01:35:15 by aycami           ###   ########.fr       */
+/*   Updated: 2025/04/07 07:36:23 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ void	ft_zero(t_so_long *func)
 	func->path_err = 0;
 	func->wall_err = 0;
 	func->char_err = 0;
+	func->empty_err = 0;
+	func->rec_err = 0;
 	func->total_rows = 0;
 	func->map = NULL;
+	func->path_map = NULL;
 	func->c_count = 0;
 	func->e_count = 0;
 	func->p_count = 0;
@@ -47,7 +50,7 @@ void	check_file_name(char **argv)
 		ft_error("File is not .ber!");
 }
 
-void	check_emptyline_and_rectangle(char **argv)
+void	check_emptyline_and_rectangle(t_so_long *func, char **argv)
 {
 	int		fd;
 	int		tmp;
@@ -61,14 +64,14 @@ void	check_emptyline_and_rectangle(char **argv)
 	while (line)
 	{
 		if (line[0] == '\n')
-			ft_error("Empty line error");
+			func->empty_err = 1;
 		if (line[(int)ft_strlen(line) - 1] != '\n')
 		{
 			if (((int)ft_strlen(line) + 1) != tmp)
-				ft_error("Not rectangle");
+				func->rec_err = 1;
 		}
 		else if ((int)ft_strlen(line) != tmp)
-			ft_error("Not rectangle");
+			func->rec_err = 1;
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -95,6 +98,14 @@ void	check_walls(t_so_long *func)
 	}
 }
 
+void	check_error_flag_empty_rec(t_so_long *func)
+{
+	if (func->empty_err == 1)
+		ft_error("There is a empty line");
+	if (func->rec_err == 1)
+		ft_error("Not Rectangle");
+}
+
 int	main(int argc, char **argv)
 {
 	t_so_long	func;
@@ -106,7 +117,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	check_file_name(argv);
-	check_emptyline_and_rectangle(argv);
+	check_emptyline_and_rectangle(&func, argv);
+	check_error_flag_empty_rec(&func);
 	read_map(argv[1], &func);
 	check_map_char(&func);
 	check_char_count(&func);

@@ -17,6 +17,8 @@ typedef struct s_so_long
 	int	path_err;
 	int	wall_err;
 	int char_err;
+	int	empty_err;
+	int	rec_err;
 	//MLX
 	void	*mlx;
 	void	*win;
@@ -49,7 +51,7 @@ typedef struct s_so_long
 // so_long.c
 void	ft_zero(t_so_long *func);
 void	check_file_name(char **argv);
-void	check_emptyline_and_rectangle(char **argv);
+void	check_emptyline_and_rectangle(t_so_long*func, char **argv);
 void	check_walls(t_so_long *func);
 // check_map.c
 void	check_map_char(t_so_long *func);
