@@ -6,13 +6,13 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 07:39:23 by aycami"           #+#    #+#             */
-/*   Updated: 2025/04/07 08:35:48 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 09:20:45 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# include "./get_next_line/get_next_line.h"
+# include "get_next_line.h"
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>

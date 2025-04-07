@@ -1,8 +1,8 @@
 NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = ./get_next_line/get_next_line_utils.c \
-		./get_next_line/get_next_line.c \
+SRCS = 	get_next_line_utils.c \
+		get_next_line.c \
 		so_long.c \
 		check_map.c \
 		read_map.c \
