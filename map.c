@@ -87,7 +87,7 @@ void	read_map(char *filename, t_so_long *func)
 		ft_error("File open error");
 	}
 	i = 0;
-	while (i < func->total_rows)
+	while (i < func->total_rows + 1)
 	{
 		line = get_next_line(fd);
 		if (line)
@@ -98,6 +98,8 @@ void	read_map(char *filename, t_so_long *func)
 			if (!func->map[i] || !func->path_map[i])
 				ft_error("Memory allocation error");
 		}
+		else
+			break;
 		free(line);
 		i++;
 	}

@@ -41,6 +41,8 @@ typedef struct s_so_long
 	int		exit_i;
 	int		exit_j;
 	int		moves;
+	int		i;
+	int		j;
 
 } t_so_long;
 
