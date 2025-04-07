@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 09:27:24 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 09:54:21 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	destroy_window(t_so_long *func)
 void	check_on_exit(t_so_long *func, int i, int j)
 {
 	if (func->map[i][j] == 'E' && func->c_count == 0)
+	{
+		ft_printf("You Win! Moves: %d\n", ++(func->moves));
 		destroy_window(func);
+	}
 	if (func->map[i][j] == 'E')
 	{
 		func->map[func->player_i][func->player_j] = '0';
@@ -99,7 +102,7 @@ int	key_press(int keycode, t_so_long *func)
 {
 	if (keycode == 65307)
 	{
-		printf("You lost! Moves: %d", func->moves++);
+		ft_printf("You lost! Moves: %d\n", func->moves);
 		destroy_window(func);
 		exit(0);
 	}
@@ -109,7 +112,7 @@ int	key_press(int keycode, t_so_long *func)
 			&& move_player(func, 0, 1) == 1))
 	{
 		func->moves++;
-		printf("moves: %d\n", func->moves);
+		ft_printf("moves: %d\n", func->moves);
 	}
 	return (0);
 }

@@ -15,13 +15,16 @@ all: $(NAME)
 
 $(NAME): ${SRCS}
 	@make -C ./minilibx-linux
-	@$(CC) $(SRCS) $(CFLAGS) ./minilibx-linux/libmlx.a  -lX11 -lXext -lm -o $(NAME)
+	@make -C ./ft_printf
+	@$(CC) $(SRCS) $(CFLAGS) ./minilibx-linux/libmlx.a ./ft_printf/libftprintf.a -lX11 -lXext -lm -o $(NAME)
 	@clear
 	@echo "The make is done"
 clean:
 	@rm -rf $(NAME)
 	@make clean -C minilibx-linux/
+	@make clean -C ft_printf
 fclean: clean
 	@rm -rf $(NAME)
 	@make clean -C minilibx-linux/
+	@make fclean -C ft_printf
 re: fclean all

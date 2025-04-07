@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 08:26:25 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 09:51:32 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ void	image_to_map(t_so_long *func)
 	put_others_to_window(func, 0, 0);
 }
 
+int	destroy_window_with_moves(t_so_long *func)
+{
+	ft_printf("You lost! Moves: %d\n", func->moves);
+	mlx_destroy_image(func->mlx, func->acorn);
+	mlx_destroy_image(func->mlx, func->background);
+	mlx_destroy_image(func->mlx, func->door);
+	mlx_destroy_image(func->mlx, func->tree);
+	mlx_destroy_image(func->mlx, func->totoro);
+	mlx_destroy_image(func->mlx, func->totoro_with_door);
+	mlx_destroy_window(func->mlx, func->win);
+	mlx_destroy_display(func->mlx);
+	free(func->mlx);
+	ft_error_map_game_exit(func, 0);
+	return (0);
+}
+
 void	ft_game_function(t_so_long *func)
 {
 	func->mlx = mlx_init();
@@ -53,7 +69,7 @@ void	ft_game_function(t_so_long *func)
 			(func->total_rows * 64), "Asude");
 	xpm_to_image(func);
 	image_to_map(func);
-	mlx_hook(func->win, 17, 1L << 17, destroy_window, func);
+	mlx_hook(func->win, 17, 1L << 17, destroy_window_with_moves, func);
 	mlx_hook(func->win, 2, 1L << 0, key_press, func);
 	mlx_loop(func->mlx);
 }

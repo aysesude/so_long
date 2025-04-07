@@ -6,7 +6,7 @@
 /*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 07:39:23 by aycami"           #+#    #+#             */
-/*   Updated: 2025/04/07 09:20:45 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 09:32:43 by aycami"          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <string.h>
 # include "./minilibx-linux/mlx.h"
+# include "./ft_printf/ft_printf.h"
 
 typedef struct s_so_long
 {
