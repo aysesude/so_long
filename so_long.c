@@ -14,15 +14,12 @@
 
 void	ft_zero(t_so_long *func)
 {
-	//ERRORS
 	func->exit_err = 0;
 	func->start_err = 0;
 	func->coll_err = 0;
 	func->path_err = 0;
 	func->wall_err = 0;
 	func->char_err = 0;
-
-	//OTHERS
 	func->total_rows = 0;
 	func->map = NULL;
 	func->c_count = 0;
@@ -67,10 +64,10 @@ void	check_emptyline_and_rectangle(char **argv)
 			ft_error("Empty line error");
 		if (line[(int)ft_strlen(line) - 1] != '\n')
 		{
-			if(((int)ft_strlen(line) + 1 ) != tmp)
+			if (((int)ft_strlen(line) + 1) != tmp)
 				ft_error("Not rectangle");
 		}
-		else if((int)ft_strlen(line) != tmp)
+		else if ((int)ft_strlen(line) != tmp)
 			ft_error("Not rectangle");
 		free(line);
 		line = get_next_line(fd);
@@ -83,16 +80,16 @@ void	check_walls(t_so_long *func)
 	int	i;
 
 	i = 0;
-	while(i < func->row_length)
+	while (i < func->row_length)
 	{
-		if(func->map[0][i] != '1' || func->map[func->total_rows - 1][i] != '1')
+		if (func->map[0][i] != '1' || func->map[func->total_rows - 1][i] != '1')
 			func->wall_err = 1;
 		i++;
 	}
 	i = 0;
-	while(i < func->total_rows)
+	while (i < func->total_rows)
 	{
-		if(func->map[i][func->row_length - 1] != '1' || func->map[i][0] != '1')
+		if (func->map[i][func->row_length - 1] != '1' || func->map[i][0] != '1')
 			func->wall_err = 1;
 		i++;
 	}

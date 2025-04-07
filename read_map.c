@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
+/*   Updated: 2025/04/07 01:35:15 by aycami           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	count_lines(char *filename, t_so_long *func)
 {
-	int fd;
-	int count;
-	char *line;
+	int		fd;
+	int		count;
+	char	*line;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -13,10 +25,10 @@ void	count_lines(char *filename, t_so_long *func)
 	line = get_next_line(fd);
 	if (line)
 	{
-	    if (line[ft_strlen(line) - 1] == '\n')
-	        func->row_length = ft_strlen(line) - 1;
-	    else
-	        func->row_length = ft_strlen(line);
+		if (line[ft_strlen(line) - 1] == '\n')
+			func->row_length = ft_strlen(line) - 1;
+		else
+			func->row_length = ft_strlen(line);
 	}
 	while (line)
 	{
@@ -24,25 +36,24 @@ void	count_lines(char *filename, t_so_long *func)
 		line = get_next_line(fd);
 		if (line)
 		{
-			if(line[0] == '\n')
+			if (line[0] == '\n')
 				count--;
 		}
-		if(line)
+		if (line)
 			count++;
 	}
 	free(line);
 	close(fd);
 	func->total_rows = count;
-	// printf("row_length: %d \ntotal_rows: %d\n", func->row_length, func->total_rows);
 }
 
 void	read_map(char *filename, t_so_long *func)
 {
-	int fd;
-	char *line;
-	int	i;
-	i = 0;
+	int		fd;
+	char	*line;
+	int		i;
 
+	i = 0;
 	count_lines(filename, func);
 	if (func->total_rows <= 0)
 		exit(0);
@@ -73,12 +84,11 @@ void	read_map(char *filename, t_so_long *func)
 				ft_error("Memory allocation error");
 		}
 		else
-			break;
-		free(line);
+			break ;
+		free (line);
 		i++;
 	}
 	func->map[i] = NULL;
 	func->path_map[i] = NULL;
 	close(fd);
-	// return (func->map);
 }
