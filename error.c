@@ -1,5 +1,31 @@
 #include "so_long.h"
 
+void	free_map(t_so_long *func)
+{
+	int i;
+
+	if (func->map)
+	{
+		i = 0;
+		while (func->map[i])
+		{
+			free(func->map[i]);
+			i++;
+		}
+		free(func->map);
+	}
+	if (func->path_map)
+	{
+		i = 0;
+		while (func->path_map[i])
+		{
+			free(func->path_map[i]);
+			i++;
+		}
+		free(func->path_map);
+	}
+}
+
 void	ft_print_errors(t_so_long *func)
 {
 	if (func->char_err == 1)
@@ -18,11 +44,13 @@ void	ft_print_errors(t_so_long *func)
 		|| func->coll_err == 1 || func->path_err == 1 || func->wall_err == 1 || func->char_err == 1)
 		ft_error_map_game_exit(func, 1);
 }
-void ft_error_map_game_exit(t_so_long *func, int i)
+
+void	ft_error_map_game_exit(t_so_long *func, int i)
 {
 	free_map(func);
 	exit(i);
 }
+
 void	ft_error(char *msg)
 {
 	printf("%s\n", msg);

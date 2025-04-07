@@ -46,25 +46,37 @@ typedef struct s_so_long
 
 } t_so_long;
 
-void	ft_error(char *msg);
-void	ft_print_errors(t_so_long *func);
-void ft_error_map_game_exit(t_so_long *func, int i);
-void	check_file_name(char **argv);
-void	count_lines(char *filename, t_so_long *func);
-void	read_map(char *filename, t_so_long *func);
+// so_long.c
 void	ft_zero(t_so_long *func);
+void	check_file_name(char **argv);
+void	check_emptyline_and_rectangle(char **argv);
+void	check_walls(t_so_long *func);
+// check_map.c
 void	check_map_char(t_so_long *func);
 void	error_char_count(t_so_long *func);
 void	check_char_count(t_so_long *func);
-void	find_player_position(t_so_long *func);
-void	check_emptyline_and_rectangle(char **argv);
-void	check_walls(t_so_long *func);
-void	check_valid_path(t_so_long *func, int x, int y);
+void	check_valid_path(t_so_long *func, int i, int j);
 void	check_path(t_so_long *func);
-void	free_map(t_so_long *func);
+// read_map.c
+void	count_lines(char *filename, t_so_long *func);
+void	read_map(char *filename, t_so_long *func);
+// find_pos.c
 void	find_door_position(t_so_long *func);
-void 	xpm_to_image(t_so_long *func);
-void 	image_to_map(t_so_long *func);
+void	find_player_position(t_so_long *func);
+// error.c
+void	free_map(t_so_long *func);
+void	ft_print_errors(t_so_long *func);
+void	ft_error_map_game_exit(t_so_long *func, int i);
+void	ft_error(char *msg);
+// game_one.c
 int		destroy_window(t_so_long *func);
-
+void	check_on_exit(t_so_long *func, int i, int j);
+void	change_map(t_so_long *func, int i, int j);
+int		move_player(t_so_long *func, int i, int j);
+int		key_press(int keycode, t_so_long *func);
+// game_two.c
+void	put_others_to_window(t_so_long *func, int i, int j);
+void	image_to_map(t_so_long *func);
+void	ft_game_function(t_so_long *func);
+void	xpm_to_image(t_so_long *func);
 #endif

@@ -4,8 +4,12 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = ./get_next_line/get_next_line_utils.c \
 		./get_next_line/get_next_line.c \
 		so_long.c \
-		map.c \
+		check_map.c \
+		read_map.c \
 		error.c \
+		find_pos.c \
+		game_one.c \
+		game_two.c
 
 all: $(NAME)
 
