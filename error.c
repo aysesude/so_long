@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 08:33:15 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:01:40 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	check_error_flag_empty_rec(t_so_long *func)
 	if (func->empty_err == 1)
 		ft_error("There is a empty line");
 	if (func->rec_err == 1)
-		ft_error("Not Rectangle");
+		ft_error("Not Rectangle / One line");
 }
 
 void	check_if_there_is_a_map(char **argv)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami" <aycami@student.42.fr>             +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:06:02 by aycami            #+#    #+#             */
-/*   Updated: 2025/04/07 08:59:10 by aycami"          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:12:48 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,13 @@ void	read_map(char *filename, t_so_long *func)
 	int		fd;
 
 	count_lines(filename, func);
-	if (func->total_rows <= 0)
-		exit(0);
 	func->map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
 	func->path_map = (char **)malloc(sizeof(char *) * (func->total_rows + 1));
 	if (!func->map || !func->path_map)
 	{
 		free(func->map);
 		free(func->path_map);
-		exit(0);
+		exit(1);
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
